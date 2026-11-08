@@ -6,7 +6,7 @@
     <title>HAPPY BIRTHDAY JAEKA! ✨</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
     
     <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -18,11 +18,11 @@
             --deep-pink: #d81b60;
             --soft-pink: #ffe4e8;
             --accent-gold: #ffd700;
-            --glass-bg: rgba(255, 255, 255, 0.92);
-            --glass-border: rgba(255, 255, 255, 0.95);
-            --text-dark: #3a1c28;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.98);
+            --text-dark: #2d131f;
             --text-muted: #7a4b5c;
-            --shadow-glow: rgba(255, 64, 129, 0.35);
+            --shadow-glow: rgba(255, 64, 129, 0.3);
         }
 
         * {
@@ -39,28 +39,23 @@
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
             background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #f7c5cc, #e1bee7);
             background-size: 400% 400%;
-            animation: gradientShift 12s ease infinite;
             position: relative;
             color: var(--text-dark);
+            padding: 40px 20px;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Smooth Particle Canvas */
+        /* HARDWARE-ACCELERATED BACKGROUND CANVAS */
         #particleCanvas {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -72,107 +67,96 @@
         /* Ambient Glow Blobs */
         .glow-blob {
             position: absolute;
-            width: 340px;
-            height: 340px;
+            width: 400px;
+            height: 400px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 64, 129, 0.38) 0%, rgba(255, 255, 255, 0) 70%);
+            background: radial-gradient(circle, rgba(255, 64, 129, 0.35) 0%, rgba(255, 255, 255, 0) 70%);
             filter: blur(45px);
             pointer-events: none;
             z-index: 0;
-            animation: blobPulse 8s infinite alternate ease-in-out;
         }
 
-        .blob-1 { top: -90px; left: -90px; }
-        .blob-2 { bottom: -90px; right: -90px; animation-delay: -4s; }
+        .blob-1 { top: 5%; left: 5%; }
+        .blob-2 { bottom: 5%; right: 5%; }
 
-        @keyframes blobPulse {
-            0% { transform: scale(0.85) translate(0, 0); opacity: 0.6; }
-            100% { transform: scale(1.3) translate(30px, -20px); opacity: 0.9; }
-        }
-
-        /* Main Glassmorphic Card Container */
+        /* Main Glassmorphic Card Container - WIDE & UNCROPPED */
         .main-card {
             position: relative;
             z-index: 10;
-            width: 94%;
-            max-width: 540px;
+            width: 96%;
+            max-width: 1150px;
+            min-height: 680px;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 2px solid var(--glass-border);
             border-radius: 28px;
-            box-shadow: 0 20px 50px var(--shadow-glow), 0 2px 10px rgba(255, 255, 255, 0.9) inset;
-            padding: 35px 30px 30px;
+            box-shadow: 0 15px 40px var(--shadow-glow);
+            padding: 55px 45px 45px 45px;
             text-align: center;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
             overflow: visible;
+            margin: 20px 0;
         }
 
         /* Ribbon Badge Top Right */
         .corner-ribbon {
             position: absolute;
             top: -12px;
-            right: 25px;
+            right: 35px;
             background: linear-gradient(135deg, #ff4081, #ff6e40);
             color: white;
-            padding: 6px 16px;
-            font-size: 0.75rem;
+            padding: 6px 18px;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             border-radius: 20px;
             box-shadow: 0 4px 12px rgba(255, 64, 129, 0.4);
-            z-index: 15;
+            z-index: 30;
         }
 
-        /* CLASSIC SNOOPY VECTOR STICKERS */
+        /* ANIMATED SNOOPY VECTOR STICKERS (Smooth Floating & Wiggling) */
         .snoopy-sticker {
             position: absolute;
             pointer-events: none;
-            filter: drop-shadow(0 6px 12px rgba(233, 30, 99, 0.25));
-            z-index: 20;
+            filter: drop-shadow(0 6px 14px rgba(233, 30, 99, 0.25));
+            z-index: 25;
+            animation: stickerBounce 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes stickerBounce {
+            0% { transform: translateY(0px) rotate(-2deg) scale(1); }
+            100% { transform: translateY(-12px) rotate(3deg) scale(1.03); }
         }
 
         .snoopy-p1-main {
-            width: 145px;
+            width: 200px;
             height: auto;
-            margin-bottom: 5px;
-            animation: snoopyWiggle 2.5s ease-in-out infinite;
+            margin-bottom: 12px;
         }
 
         .snoopy-p2-side {
-            width: 125px;
+            width: 165px;
             height: auto;
-            bottom: -25px;
-            right: -25px;
-            animation: floatBounce 2.5s infinite ease-in-out;
+            bottom: -45px;
+            right: -45px;
+            animation-delay: -1s;
         }
 
         .snoopy-p3-top {
-            width: 90px;
+            width: 130px;
             height: auto;
-            top: -55px;
-            right: -20px;
-            animation: bounceBadge 2s infinite;
+            top: -65px;
+            right: -35px;
+            animation-delay: -1.5s;
         }
 
         .snoopy-p3-bottom {
-            width: 95px;
+            width: 135px;
             height: auto;
-            bottom: -25px;
-            left: -20px;
-            animation: floatBounce 3s infinite ease-in-out;
-        }
-
-        @keyframes snoopyWiggle {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-6px) rotate(-3deg); }
-            75% { transform: translateY(-3px) rotate(3deg); }
-        }
-
-        @keyframes floatBounce {
-            0%, 100% { transform: translateY(0) rotate(3deg); }
-            50% { transform: translateY(-8px) rotate(-2deg); }
+            bottom: -45px;
+            left: -45px;
+            animation-delay: -2s;
         }
 
         /* Page Transitions */
@@ -182,176 +166,185 @@
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transform: scale(0.92) translateY(15px);
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
         }
 
         .page.active {
             display: flex;
             opacity: 1;
-            transform: scale(1) translateY(0);
         }
 
-        /* Typography & Visual Elements */
+        /* ANIMATED HERO TITLES & HEADINGS */
         .hero-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.3rem;
+            font-size: 4.8rem;
             background: linear-gradient(135deg, var(--deep-pink), #ff4081);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 10px 0 8px;
-            text-shadow: 0 4px 10px rgba(216, 27, 96, 0.15);
-            line-height: 1.15;
+            margin: 12px 0 12px;
+            text-shadow: 0 4px 12px rgba(216, 27, 96, 0.18);
+            line-height: 1.12;
             font-weight: 700;
+            animation: titlePulse 2.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titlePulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255, 64, 129, 0.2)); }
+            100% { transform: scale(1.03); filter: drop-shadow(0 0 15px rgba(255, 64, 129, 0.5)); }
         }
 
         .subtitle {
-            font-size: 1.05rem;
+            font-size: 1.35rem;
             color: var(--text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             font-weight: 400;
+            animation: subtitleFade 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtitleFade {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
         }
 
         .floating-icon-wrapper {
             position: relative;
-            margin: 5px 0 10px;
+            margin: 12px 0;
+            animation: iconFloat 2.5s ease-in-out infinite alternate;
         }
 
-        /* Birthday Cake Display */
-        .cake-container {
-            position: relative;
-            margin: 15px 0 25px;
-            cursor: pointer;
-            transition: transform 0.2s;
+        @keyframes iconFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
         }
 
-        .cake-container:hover {
-            transform: scale(1.1);
-        }
-
-        .cake-emoji {
-            font-size: 5.2rem;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12));
-            animation: pulseCake 2.5s infinite ease-in-out;
-        }
-
-        @keyframes pulseCake {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        .sparkle-badge {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: #fff0f5;
-            border: 1px solid #ff80ab;
-            border-radius: 12px;
-            padding: 3px 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--deep-pink);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            animation: bounceBadge 2s infinite;
-            z-index: 10;
-        }
-
-        @keyframes bounceBadge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        /* Letter Card Styling */
+        /* EXPANDED WIDE LETTER CARD WITH SMOOTH SCROLL */
         .letter-card {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 22px 22px;
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.08), inset 0 0 0 1px rgba(255, 128, 171, 0.2);
+            border-radius: 22px;
+            padding: 40px 50px;
+            box-shadow: 0 8px 30px rgba(233, 30, 99, 0.08), inset 0 0 0 1px rgba(255, 128, 171, 0.2);
             border: 1.5px dashed #ff80ab;
             text-align: left;
             width: 100%;
+            max-height: 540px;
+            overflow-y: auto;
             position: relative;
+            z-index: 20;
+            scroll-behavior: smooth;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Custom Scrollbar for Letter */
+        .letter-card::-webkit-scrollbar {
+            width: 10px;
+        }
+        .letter-card::-webkit-scrollbar-track {
+            background: #fff0f5;
+            border-radius: 10px;
+        }
+        .letter-card::-webkit-scrollbar-thumb {
+            background: #ff80ab;
+            border-radius: 10px;
+        }
+        .letter-card::-webkit-scrollbar-thumb:hover {
+            background: #d81b60;
         }
 
         .letter-card::before {
             content: '✨';
             position: absolute;
-            top: 10px;
-            right: 12px;
-            font-size: 1rem;
+            top: 25px;
+            right: 30px;
+            font-size: 1.4rem;
             opacity: 0.6;
         }
 
+        /* ANIMATED SALUTATION TITLE */
         .salutation {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.3rem;
-            color: var(--deep-pink);
-            margin-bottom: 6px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #d81b60, #ff4081);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
             display: block;
+            text-shadow: 0 2px 8px rgba(216, 27, 96, 0.15);
+            animation: salutationGlow 2s infinite alternate ease-in-out;
         }
 
+        @keyframes salutationGlow {
+            0% { transform: scale(1); filter: brightness(1); }
+            100% { transform: scale(1.02); filter: brightness(1.15); }
+        }
+
+        /* CLEAN STATIC MESSAGE TEXT (NO ANIMATION AS REQUESTED) */
         .letter-body {
-            font-size: 1.02rem;
-            line-height: 1.55;
-            color: #3f2530;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.18rem;
+            line-height: 1.9;
+            color: #2b1622;
             font-weight: 400;
-            letter-spacing: 0.1px;
+            letter-spacing: 0.2px;
         }
 
         .letter-body p {
-            margin-bottom: 9px;
+            margin-bottom: 22px;
         }
 
-        .letter-body p:last-child {
-            margin-bottom: 0;
-            font-weight: 600;
-            color: var(--deep-pink);
+        .letter-body p.romantic-highlight {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 1.32rem;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #c2185b, #ff1493, #d81b60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 12px rgba(255, 20, 147, 0.25);
+            padding: 12px 0;
+            border-top: 1px dashed rgba(255, 128, 171, 0.4);
+            border-bottom: 1px dashed rgba(255, 128, 171, 0.4);
+            margin-top: 25px;
         }
 
-        /* Interactive Buttons */
+        /* Action Buttons */
         .btn-action {
             background: linear-gradient(135deg, #ff4081, #d81b60);
             color: white;
             border: none;
-            padding: 14px 34px;
-            font-size: 1.05rem;
+            padding: 16px 48px;
+            font-size: 1.2rem;
             font-weight: 600;
             border-radius: 50px;
-            box-shadow: 0 8px 20px var(--shadow-glow);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 18px var(--shadow-glow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             margin-top: 18px;
             position: relative;
-            overflow: hidden;
-            z-index: 10;
+            z-index: 25;
+            flex-shrink: 0;
+            animation: btnPulse 2s infinite ease-in-out;
         }
 
-        .btn-action::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(30deg);
-            transition: 0.8s;
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 6px 18px var(--shadow-glow); }
+            50% { transform: scale(1.03); box-shadow: 0 10px 25px rgba(255, 64, 129, 0.45); }
         }
 
         .btn-action:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 12px 28px rgba(255, 64, 129, 0.45);
-        }
-
-        .btn-action:hover::after {
-            left: 100%;
+            transform: translateY(-2px) scale(1.04);
         }
 
         .btn-action:active {
-            transform: translateY(1px) scale(0.98);
+            transform: translateY(1px);
         }
 
         /* Floating Audio Control Widget */
@@ -359,8 +352,7 @@
             position: fixed;
             bottom: 22px;
             right: 22px;
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.92);
             border: 1px solid rgba(255, 128, 171, 0.5);
             padding: 8px 16px;
             border-radius: 30px;
@@ -372,19 +364,18 @@
             font-weight: 500;
             color: var(--deep-pink);
             z-index: 100;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease;
             opacity: 0;
-            transform: translateY(20px);
+            pointer-events: none;
         }
 
         .audio-widget.visible {
             opacity: 1;
-            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .audio-widget:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.2);
+            transform: translateY(-2px);
         }
 
         .equalizer-bars {
@@ -398,34 +389,143 @@
             width: 3px;
             background: var(--primary-pink);
             border-radius: 2px;
-            animation: eqAnim 1s infinite alternate ease-in-out;
         }
 
-        .eq-bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
-        .eq-bar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
-        .eq-bar:nth-child(3) { height: 40%; animation-delay: 0.2s; }
-
-        @keyframes eqAnim {
-            0% { transform: scaleY(0.3); }
-            100% { transform: scaleY(1); }
-        }
+        .eq-bar:nth-child(1) { height: 60%; }
+        .eq-bar:nth-child(2) { height: 100%; }
+        .eq-bar:nth-child(3) { height: 40%; }
 
         .paused .eq-bar {
-            animation-play-state: paused;
             height: 30%;
         }
 
-        @media (max-height: 720px) {
-            .main-card { padding: 22px 20px 20px; }
-            .hero-title { font-size: 2.8rem; }
-            .letter-card { padding: 16px 18px; }
-            .letter-body { font-size: 0.94rem; line-height: 1.45; }
-            .letter-body p { margin-bottom: 6px; }
-            .cake-emoji { font-size: 4rem; }
-            .snoopy-p1-main { width: 115px; }
-            .snoopy-p2-side { width: 100px; }
-            .snoopy-p3-top { width: 70px; top: -35px; }
-            .snoopy-p3-bottom { width: 75px; bottom: -20px; }
+        /* BIRTHDAY CAKE & WISH SECTION */
+        .wish-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.4rem;
+            line-height: 1.1;
+            margin: 0 0 10px;
+            color: #d81b60;
+            animation: titlePulse 2s infinite alternate ease-in-out;
+        }
+
+        .cake-container {
+            width: min(100%, 450px);
+            height: 240px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+        }
+
+        .cake-scene {
+            position: relative;
+            width: 390px;
+            max-width: 100%;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .cake-plate {
+            position: absolute; bottom: 7px; width: 96%; height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(#fff, #ffd7e5 55%, #f4a9c2);
+            border: 3px solid #fff;
+            box-shadow: 0 5px 10px rgba(140, 40, 80, 0.12);
+        }
+
+        .cake-layer {
+            position: absolute; bottom: 24px; width: 82%; height: 90px;
+            border: 4px solid #b94d78; border-radius: 22px 22px 18px 18px;
+            background: repeating-linear-gradient(90deg, #ffc5d8 0 24px, #ffdae6 24px 48px);
+        }
+
+        .cake-layer::before {
+            content: ''; position: absolute; left: -4px; right: -4px; top: -12px;
+            height: 28px; border-radius: 50% 50% 15px 15px / 70% 70% 25px 25px;
+            background: linear-gradient(180deg, #fff9fc, #ffeff5);
+            border: 4px solid #e98eb1;
+        }
+
+        .cake-layer::after {
+            content: '♥  ✦  ♥  ✦  ♥'; position: absolute; left: 0; right: 0; bottom: 20px;
+            color: #fff8fc; font-size: 18px; letter-spacing: 9px; text-align: center;
+            text-shadow: 0 1px 2px #e78bab;
+        }
+
+        .cake-top {
+            position: absolute; bottom: 106px; width: 72%; height: 26px;
+            border-radius: 50%; background: linear-gradient(#fff, #ffeaf2);
+            border: 4px solid #e98eb1; z-index: 2;
+        }
+
+        .candle {
+            position: absolute; bottom: 124px; width: 16px; height: 55px;
+            border: 2px solid rgba(255,255,255,.9); border-radius: 5px 5px 3px 3px;
+            background: repeating-linear-gradient(135deg, #fff 0 7px, #ff78a8 7px 14px);
+            z-index: 4; cursor: pointer;
+        }
+
+        .candle:nth-of-type(1) { left: 23%; }
+        .candle:nth-of-type(2) { left: 36%; }
+        .candle:nth-of-type(3) { left: 49%; }
+        .candle:nth-of-type(4) { left: 62%; }
+        .candle:nth-of-type(5) { left: 75%; }
+
+        .flame {
+            position: absolute; width: 16px; height: 24px; left: -2px; top: -23px;
+            border-radius: 55% 55% 48% 48%; background: radial-gradient(ellipse at 50% 70%, #fff7a8 0 18%, #ffb52e 42%, #ff6b35 72%);
+            box-shadow: 0 0 10px 4px rgba(255, 174, 45, 0.4);
+            pointer-events: none;
+        }
+
+        .candle.blown { opacity: 0.7; cursor: default; }
+        .candle.blown .flame { display: none; }
+
+        .smoke {
+            position: absolute; left: 2px; top: -30px; width: 10px; height: 20px;
+            border-radius: 50%; border-right: 2px solid rgba(150,150,150,0.6);
+            opacity: 0; pointer-events: none;
+        }
+
+        .candle.blown .smoke { opacity: 0.7; }
+
+        .blow-all-btn {
+            margin: 6px auto 8px;
+            padding: 10px 22px;
+            border: 0;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff5c9a, #d94685);
+            color: white;
+            font: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(217, 70, 133, 0.2);
+            animation: btnPulse 2s infinite ease-in-out;
+        }
+
+        .blow-all-btn:hover { background: #d94685; }
+        .blow-all-btn:disabled { opacity: 0.65; cursor: default; animation: none; }
+
+        .cake-instruction { color: #9a5570; font-size: .85rem; margin-top: 2px; }
+
+        .sparkle-badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: #fff0f5;
+            border: 1px solid #ff80ab;
+            border-radius: 12px;
+            padding: 3px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--deep-pink);
+            z-index: 10;
+            animation: titlePulse 1.5s infinite alternate ease-in-out;
         }
     </style>
 </head>
@@ -435,7 +535,7 @@
     <div class="glow-blob blob-1"></div>
     <div class="glow-blob blob-2"></div>
 
-    <!-- Canvas for Ultra-Smooth Upward Floating Background Elements -->
+    <!-- FAST, SMOOTH FLOATING ANIMATION (Big Hearts & Flowers) -->
     <canvas id="particleCanvas"></canvas>
 
     <!-- BACKGROUND MUSIC FILE LINK -->
@@ -460,33 +560,19 @@
         <!-- PAGE 1: Intro Page -->
         <div class="page active" id="page1">
             <div class="floating-icon-wrapper">
-                <!-- Snoopy Paws Up Looking Up at Hearts with Both Feet -->
-                <svg class="snoopy-p1-main" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Red Hearts Floating Around -->
+                <svg class="snoopy-sticker snoopy-p1-main" style="position: relative;" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22 28 C17 16 4 23 12 35 L22 46 L32 35 C40 23 27 16 22 28 Z" fill="#b31217"/>
                     <path d="M138 22 C133 10 120 17 128 29 L138 40 L148 29 C156 17 143 10 138 22 Z" fill="#b31217"/>
                     <path d="M12 95 C7 83 -6 90 2 102 L12 113 L22 102 C30 90 17 83 12 95 Z" fill="#b31217"/>
                     <path d="M142 98 C137 86 124 93 132 105 L142 116 L152 105 C160 93 147 86 142 98 Z" fill="#b31217"/>
-
-                    <!-- Snoopy Head -->
                     <path d="M55 40 C68 20 118 28 115 63 C112 78 88 80 78 80 C68 80 58 86 52 78 C44 70 44 52 55 40 Z" fill="white" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
-                    
-                    <!-- Floppy Ear -->
                     <path d="M46 48 C34 50 28 68 33 88 C36 98 46 92 48 82 C50 72 50 56 46 48 Z" fill="#111" stroke="#111" stroke-width="2"/>
-                    
-                    <!-- Eyes & Nose -->
                     <path d="M64 46 Q66 41 69 46" stroke="#111" stroke-width="2.5" fill="none"/>
                     <path d="M74 44 Q76 39 79 44" stroke="#111" stroke-width="2.5" fill="none"/>
                     <ellipse cx="102" cy="54" rx="7" ry="5" fill="#111"/>
-                    
-                    <!-- Smile Line -->
                     <path d="M58 62 Q74 74 92 62" stroke="#111" stroke-width="2.5" fill="none"/>
-                    
-                    <!-- Paws Cupped Under Chin -->
                     <path d="M62 68 C58 68 54 78 62 84 C68 90 74 84 72 78 Z" fill="white" stroke="#111" stroke-width="3"/>
                     <path d="M78 68 C74 68 70 78 78 84 C84 90 90 84 88 78 Z" fill="white" stroke="#111" stroke-width="3"/>
-
-                    <!-- Sitting Body & BOTH FEET VISIBLE -->
                     <path d="M64 80 C60 95 60 112 68 122 C76 122 84 122 80 112 C78 102 78 92 72 80 Z" fill="white" stroke="#111" stroke-width="3.5"/>
                     <path d="M56 112 C52 112 48 122 56 128 C64 134 76 134 74 122 Z" fill="white" stroke="#111" stroke-width="3.5"/>
                     <path d="M74 112 C70 112 68 122 76 128 C84 134 94 134 92 122 Z" fill="white" stroke="#111" stroke-width="3.5"/>
@@ -501,39 +587,42 @@
 
         <!-- PAGE 2: Envelope / Cake Screen -->
         <div class="page" id="page2">
-            <div class="cake-container" onclick="triggerMassiveSurprise()">
-                <div class="sparkle-badge">Tap for Magic ✨</div>
-                <div class="cake-emoji">🎂</div>
+            <h1 class="wish-title">Make a wish ✨</h1>
+            <div class="cake-container" id="birthdayCake">
+                <div class="sparkle-badge">Tap each candle ✨</div>
+                <div class="cake-scene">
+                    <div class="cake-plate"></div>
+                    <div class="cake-layer"></div>
+                    <div class="cake-top"></div>
+                    <button class="candle" type="button" aria-label="Blow out candle 1" onclick="blowCandle(event, this)"><span class="flame"></span><span class="smoke"></span></button>
+                    <button class="candle" type="button" aria-label="Blow out candle 2" onclick="blowCandle(event, this)"><span class="flame"></span><span class="smoke"></span></button>
+                    <button class="candle" type="button" aria-label="Blow out candle 3" onclick="blowCandle(event, this)"><span class="flame"></span><span class="smoke"></span></button>
+                    <button class="candle" type="button" aria-label="Blow out candle 4" onclick="blowCandle(event, this)"><span class="flame"></span><span class="smoke"></span></button>
+                    <button class="candle" type="button" aria-label="Blow out candle 5" onclick="blowCandle(event, this)"><span class="flame"></span><span class="smoke"></span></button>
+                </div>
             </div>
-            <h1 class="hero-title">Knock knock...</h1>
-            <p class="subtitle">Open up! A heartfelt message is waiting for you.</p>
+            <button class="blow-all-btn" id="blowAllButton" type="button" onclick="blowAllCandles()">💨 Blow out all candles</button>
+            <p class="cake-instruction" id="cakeInstruction">Tap a flame or press the button to blow out all the candles!</p>
+            <h1 class="hero-title" style="font-size: 2.8rem; margin-top: 6px;">Knock knock...</h1>
+            <p class="subtitle" style="margin-bottom: 8px;">Open up! A heartfelt message is waiting for you.</p>
             <button class="btn-action" onclick="goToPage(3); triggerMassiveSurprise();">
                 ✉️ Open Envelope ➔
             </button>
 
-            <!-- Snoopy Holding Cake with Striped Hat -->
+            <!-- Snoopy Side Sticker -->
             <svg class="snoopy-sticker snoopy-p2-side" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Striped Party Hat -->
                 <path d="M35 55 L20 8 L70 42 Z" fill="#ffb6c1" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
                 <path d="M22 18 L60 41" stroke="#4bc3f0" stroke-width="5"/>
                 <path d="M26 30 L50 45" stroke="#4bc3f0" stroke-width="5"/>
                 <path d="M31 43 L42 49" stroke="#4bc3f0" stroke-width="5"/>
-
-                <!-- Snoopy Head & Ear -->
                 <path d="M50 52 C65 35 115 45 108 78 C105 92 82 92 72 92 C62 92 52 98 46 92 C38 84 38 65 50 52 Z" fill="white" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
                 <path d="M38 64 C28 64 22 80 25 100 C28 110 38 104 40 94 C42 84 42 67 38 64 Z" fill="#7a5230" stroke="#111" stroke-width="3"/>
                 <ellipse cx="58" cy="64" rx="2.5" ry="5" fill="#111"/>
                 <ellipse cx="68" cy="62" rx="2.5" ry="5" fill="#111"/>
                 <ellipse cx="92" cy="72" rx="7" ry="5" fill="#111"/>
-                
-                <!-- Mouth & Tongue -->
                 <path d="M52 82 Q72 94 88 82" stroke="#111" stroke-width="3" fill="none"/>
                 <path d="M56 84 C58 92 64 92 66 85 Z" fill="#ff80ab" stroke="#111" stroke-width="2"/>
-
-                <!-- Body Holding Cake -->
                 <path d="M58 95 C52 110 52 130 58 145 C68 145 82 145 80 130 C78 120 78 105 72 95 Z" fill="white" stroke="#111" stroke-width="3.5"/>
-                
-                <!-- Yellow Frosted Cake with Candle -->
                 <rect x="90" y="92" width="60" height="38" rx="6" fill="#ffe0b2" stroke="#111" stroke-width="3"/>
                 <path d="M90 92 Q105 106 120 92 Q135 106 150 92 L150 102 Q135 116 120 102 Q105 116 90 102 Z" fill="#fff9c4"/>
                 <rect x="117" y="65" width="5" height="27" fill="#80cbc4" stroke="#111" stroke-width="2"/>
@@ -541,9 +630,8 @@
             </svg>
         </div>
 
-        <!-- PAGE 3: Final Letter -->
+        <!-- PAGE 3: Final Letter (Animated Titles & Stickers, Static Clean Message Body) -->
         <div class="page" id="page3">
-            <!-- Snoopy Paws Up Looking Up at Hearts with Both Feet (Clear from overlap) -->
             <svg class="snoopy-sticker snoopy-p3-top" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22 28 C17 16 4 23 12 35 L22 46 L32 35 C40 23 27 16 22 28 Z" fill="#b31217"/>
                 <path d="M138 22 C133 10 120 17 128 29 L138 40 L148 29 C156 17 143 10 138 22 Z" fill="#b31217"/>
@@ -561,15 +649,20 @@
             </svg>
 
             <div class="letter-card">
-                <span class="salutation">Dear Jaeka,</span>
+                <span class="salutation">HAPPY BIRTHDAY BABYY!!! 🤍✨</span>
                 <div class="letter-body">
-                    <p>Happy birthday to the one person my heart still quietly looks for. Distance and silence haven't changed the way I feel about you, or how deeply you matter to me, Jaeka.</p>
-                    <p>I miss the sound of your voice and the way your laughter used to make everything right in my world. More than anything, I hope today brings you peace, joy, and everything you’ve been working so hard for.</p>
-                    <p>Please always stay safe, at palagi kang kumain sa tamang oras at huwag mong papagutuman sarili mo kahit 'yan ang palaging ginagawa mo. Have a beautiful birthday, my baby!! 🤍</p>
+                    <p>kahit na ang dami nang nagbago, kahit distance and silence have kept us apart, i hope you know na hindi nagbago yung way na nararamdaman ko for you. you still have a special place in my heart, jaeka, and no matter how much time passes, you will always be someone i genuinely care about. kahit hindi ako nasa tabi mo ngayon to celebrate your special day, i hope you can still feel how much i wish you happiness and all the good things in life.</p>
+                    <p>i miss you. i miss hearing your voice, your laugh, your little stories, and even the simplest things about you. namimiss ko yung mga moments na kahit simpleng usap lang natin, somehow nagiging better na yung araw ko. sometimes, i still find myself remembering those little things, and honestly, i wish i could experience them again. but please don't feel sad or pressured because of this message. i don't want you to feel like you owe me anything. i just want you to know how much you mean to me and how genuinely happy i am that you exist.</p>
+                    <p>on your special day, i pray na maging gentle ang life sa'yo. sana unti-unti mong makuha lahat ng bagay na matagal mo nang pinapangarap. i hope you find peace sa mga bagay na nagpapabigat ng heart mo, strength sa mga araw na nahihirapan ka, and happiness even in the smallest things. sana hindi ka mapagod mangarap and sana lagi kang magkaroon ng reason para ngumiti. you deserve all the beautiful things in this world, jaeka. you deserve to be loved, appreciated, and treated gently.</p>
+                    <p>please always take care of yourself, okay? always stay safe wherever you go. and please, palagi kang kumain sa tamang oras. huwag mong papagutom sarili mo kahit alam kong minsan nakakalimutan mo na naman kumain. please don't skip your meals, drink enough water, and get enough rest. don't push yourself too hard, especially when you're already tired. remember na hindi mo kailangang pilitin sarili mo palagi. it's okay to rest, it's okay to take a break, and it's okay to have days when you don't feel okay. you don't have to be strong all the time. sana maging gentle ka rin sa sarili mo, just like how you deserve to be treated by others.</p>
+                    <p>i also want you to know na you don't have to reply to this message or say anything in return. i'm not sending this because i'm expecting something from you. i just genuinely want to make you feel special today, even in this simple way. i don't want my feelings to become a reason for you to feel uncomfortable or pressured. i want you to feel comfortable, and peace. whatever you're doing right now, i hope you're happy, and i hope life is treating you well.</p>
+                    <p>if ever life gets difficult, i hope you never forget that you deserve better days. kapag pagod ka na, please allow yourself to rest. kapag marami kang iniisip, take your time. you don't need to figure everything out right away. i hope you always find people and places where you can be yourself without being afraid of being judged. you deserve a kind of happiness that feels peaceful, not something you have to force.</p>
+                    <p>sometimes, i wish i could be there today, personally greeting you, seeing your smile, and reminding you how precious you are. i wish i could hear your laugh again and see you happy on your special day. but since i can't be there, i'll just send you all my love and warmest wishes through this message. kahit malayo ako, i'm still genuinely wishing the best for you.</p>
+                    <p>happy birthday once again, my baby!! i hope your day is filled with genuine smiles, warm hugs from the people you love, unexpected blessings, and moments that will make your heart happy. sana matupad lahat ng wishes mo, and sana this new chapter of your life brings you more reasons to smile. always remember na you are special, you are appreciated, and you deserve every good thing that comes your way.</p>
+                    <p class="romantic-highlight">enjoy your day, jaeka. please stay safe, eat well, and take care of yourself always. happy birthday, my baby. you deserve the happiest and most peaceful kind of life. 🤍✨</p>
                 </div>
             </div>
 
-            <!-- Snoopy Holding Cake Side Sticker (Bottom Left Corner) -->
             <svg class="snoopy-sticker snoopy-p3-bottom" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M35 55 L20 8 L70 42 Z" fill="#ffb6c1" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
                 <path d="M22 18 L60 41" stroke="#4bc3f0" stroke-width="5"/>
@@ -597,25 +690,20 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Page Navigation
         function goToPage(pageIndex) {
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
+            document.getElementById('page' + pageIndex).classList.add('active');
             
-            setTimeout(() => {
-                document.getElementById('page' + pageIndex).classList.add('active');
-                
-                // Update top right ribbon text on main card corner
-                const ribbon = document.getElementById('topRibbon');
-                if (pageIndex === 3) {
-                    ribbon.innerText = 'HAPPY BIRTHDAY!!';
-                } else {
-                    ribbon.innerText = 'Special Day';
-                }
-            }, 180);
+            const ribbon = document.getElementById('topRibbon');
+            if (pageIndex === 3) {
+                ribbon.innerText = 'HAPPY BIRTHDAY!!';
+                document.querySelector('.letter-card').scrollTop = 0;
+            } else {
+                ribbon.innerText = 'Special Day';
+            }
         }
 
-        // Local Background Music Logic
         const audio = document.getElementById('saturnAudio');
         const audioWidget = document.getElementById('audioControl');
         const eqBars = document.getElementById('eqBars');
@@ -648,34 +736,52 @@
             }
         }
 
-        // GRAND SURPRISE EFFECT
-        function triggerMassiveSurprise() {
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 80,
-                    spread: 100,
-                    origin: { x: 0.15, y: 0.5 },
-                    colors: ['#ff4081', '#ffd700', '#ffffff', '#ff80ab', '#ff69b4']
-                });
-                confetti({
-                    particleCount: 80,
-                    spread: 100,
-                    origin: { x: 0.85, y: 0.5 },
-                    colors: ['#ff4081', '#ffd700', '#ffffff', '#ff80ab', '#ff69b4']
-                });
+        function blowCandle(event, candle) {
+            event.stopPropagation();
+            if (candle.classList.contains('blown')) return;
 
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 70,
-                        spread: 130,
-                        origin: { x: 0.5, y: 0.3 },
-                        colors: ['#ffd700', '#ff1493', '#00ffff', '#ff69b4']
-                    });
-                }, 300);
+            candle.classList.add('blown');
+            const remaining = document.querySelectorAll('#birthdayCake .candle:not(.blown)').length;
+            const instruction = document.getElementById('cakeInstruction');
+
+            if (remaining > 0) {
+                instruction.textContent = remaining === 1
+                    ? 'One more candle… make your wish! 💗'
+                    : `A little wish is coming true… ${remaining} candles left!`;
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 15, spread: 40, origin: { x: 0.5, y: 0.5 } });
+                }
+            } else {
+                instruction.textContent = 'You did it! Your wish is on its way! ✨🎉';
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 100, spread: 80, origin: { x: 0.5, y: 0.5 } });
+                }
             }
         }
 
-        // ULTRA-SMOOTH & SILKY UPWARD FLOATING BACKGROUND CANVAS (Extra Smooth Floating)
+        function blowAllCandles() {
+            const candles = document.querySelectorAll('#birthdayCake .candle:not(.blown)');
+            if (!candles.length) return;
+
+            candles.forEach(candle => candle.classList.add('blown'));
+
+            document.getElementById('cakeInstruction').textContent = 'All the candles are out! Make your wish! ✨🎉';
+            const button = document.getElementById('blowAllButton');
+            button.textContent = '✨ Wish made!';
+            button.disabled = true;
+
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 120, spread: 90, origin: { x: 0.5, y: 0.5 } });
+            }
+        }
+
+        function triggerMassiveSurprise() {
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 60, spread: 80, origin: { x: 0.5, y: 0.4 } });
+            }
+        }
+
+        /* FAST & SMOOTH FLOATING HEARTS/FLOWERS ANIMATION (Lag-Free 60FPS) */
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -686,51 +792,37 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class SilkySmoothParticle {
+        class FastSmoothParticle {
             constructor() {
                 this.reset();
             }
 
             reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 120;
-                this.size = Math.random() * 15 + 12;
-                this.speedY = Math.random() * 0.8 + 0.5; // Smoother and slower float speed
-                this.speedX = Math.sin(Math.random() * Math.PI) * 0.3;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 24 + 30; // Big visible icons
+                this.speedY = Math.random() * 1.8 + 1.2; // Fast floating speed
                 this.opacity = Math.random() * 0.45 + 0.25;
                 
-                // Rich hearts and love symbol palette
-                this.symbols = ['💖', '❤️', '💕', '💗', '💓', '✨', '🌸', '🤍', '💘'];
-                this.symbol = this.symbols[Math.floor(Math.random() * this.symbols.length)];
-                
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 0.5;
+                const symbols = ['💖', '🌸', '❤️', '🌺', '💕', '🌷', '💗', '🤍', '🌼', '💘'];
+                this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
             }
 
             update() {
                 this.y -= this.speedY;
-                this.x += Math.sin(this.y * 0.008) * 0.5; // Silky horizontal wave
-                this.rotation += this.rotationSpeed;
-
-                if (this.y < -60) {
+                if (this.y < -70) {
                     this.reset();
                 }
             }
 
             draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate((this.rotation * Math.PI) / 180);
                 ctx.globalAlpha = this.opacity;
                 ctx.font = `${this.size}px serif`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(this.symbol, 0, 0);
-                ctx.restore();
+                ctx.fillText(this.symbol, this.x, this.y);
             }
         }
 
-        const particles = Array.from({ length: 45 }, () => new SilkySmoothParticle());
+        const particles = Array.from({ length: 24 }, () => new FastSmoothParticle());
 
         function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
